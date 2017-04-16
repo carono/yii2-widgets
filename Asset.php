@@ -10,4 +10,9 @@ class Asset extends AssetBundle
 {
     public $sourcePath = '@vendor/carono/yii2-widgets/assets';
     public $js = ['phones.js'];
+
+    public $depends = [
+        'carono\yii2widgets\BowerJqueryMaskAsset',
+        'carono\yii2widgets\BowerInputmaskMultiAsset',
+    ];
 }
