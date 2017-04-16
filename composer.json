@@ -1,0 +1,32 @@
+{
+  "name": "carono/yii2-components",
+  "description": "Components for yii2",
+  "type": "yii2-extension",
+  "keywords": [
+    "yii2",
+    "extension"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexander Kasyanov",
+      "email": "spamer2000@yandex.ru"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0",
+    "kartik-v/yii2-widget-depdrop": "^1.0",
+    "kartik-v/yii2-widget-select2": "^2.0",
+    "kartik-v/yii2-widget-typeahead": "^1.0",
+    "kartik-v/yii2-widget-datetimepicker": "*",
+    "yiisoft/yii2-jui": "^2.0",
+    "carono/yii2-rbac": "^1.0"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "carono\\yii2widgets\\": ""
+    }
+  }
+}
