@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce1f2eb338687e52a97d58a22be09b82",
+    "content-hash": "3951384b8c4cbeae417085c32f5fd4fb",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -53,6 +53,52 @@
                 "mobile-first",
                 "responsive",
                 "web"
+            ]
+        },
+        {
+            "name": "bower-asset/inputmask-multi",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andr-04/inputmask-multi.git",
+                "reference": "2e27d65ece1a87f52488285b7b15199a38e9bb08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andr-04/inputmask-multi/zipball/2e27d65ece1a87f52488285b7b15199a38e9bb08",
+                "reference": "2e27d65ece1a87f52488285b7b15199a38e9bb08",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.5",
+                "bower-asset/jquery.inputmask": ">=3.2.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "js/jquery.inputmask-multi.js",
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Inputmask Multi is a plugin which allows to select a mask of input basing on the beginning of entered data (such as an international phone number)",
+            "keywords": [
+                "ecosystem:jquery",
+                "inputmask",
+                "jquery-plugin",
+                "list",
+                "mask",
+                "multi",
+                "phone",
+                "phonenumber",
+                "selection",
+                "several"
             ]
         },
         {
@@ -169,6 +215,45 @@
                 "jquery",
                 "mask",
                 "plugins"
+            ]
+        },
+        {
+            "name": "bower-asset/jquery.maskedinput",
+            "version": "1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digitalBush/jquery.maskedinput.git",
+                "reference": "f19728180c604c1b0c62d6aa97af262c0c04d71c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitalBush/jquery.maskedinput/zipball/f19728180c604c1b0c62d6aa97af262c0c04d71c",
+                "reference": "f19728180c604c1b0c62d6aa97af262c0c04d71c",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.8.3"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./dist/jquery.maskedinput.js",
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "spec",
+                    "lib"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "jQuery Masked Input Plugin",
+            "keywords": [
+                "form",
+                "input",
+                "jquery",
+                "mask"
             ]
         },
         {

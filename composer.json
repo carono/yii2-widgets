@@ -20,7 +20,9 @@
     "kartik-v/yii2-widget-typeahead": "^1.0",
     "kartik-v/yii2-widget-datetimepicker": "*",
     "yiisoft/yii2-jui": "^2.0",
-    "carono/yii2-rbac": "^1.0"
+    "carono/yii2-rbac": "^1.0",
+    "bower-asset/inputmask-multi": "^1.2",
+    "bower-asset/jquery.maskedinput": "^1.4"
   },
   "require-dev": {
   },

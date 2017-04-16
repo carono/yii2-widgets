@@ -191,4 +191,11 @@ class ActiveField extends BootstrapActiveField
         $this->model->{$this->attribute} = $result;
         return parent::checkboxList($items, $options);
     }
+
+    public function phone($options = [])
+    {
+        Asset::register(\Yii::$app->getView());
+        $options = array_merge(["mask" => "phone", "placeholder" => "+7 (123) 4567-89"], $options);
+        return $this->textInput($options);
+    }
 }
