@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\helpers;
+namespace carono\yii2widgets\helpers;
 
 
 use yii\helpers\Json;
