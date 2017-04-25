@@ -26,12 +26,13 @@ var maskOpts = {
         } else {
             $("#descr").html("Маска ввода");
         }
-        $('#flag-icon').removeClass().addClass('flag-icon flag-icon-' + maskObj.cc.toLowerCase());
-
+        if (typeof maskObj.cc == 'object') {
+            $('#flag-icon').removeClass().addClass('flag-icon flag-icon-' + maskObj.cc[0].toLowerCase());
+        } else {
+            $('#flag-icon').removeClass().addClass('flag-icon flag-icon-' + maskObj.cc.toLowerCase());
+        }
     }
 };
-
 $(function () {
     $('[mask=phone]').inputmasks(maskOpts);
 });
-
