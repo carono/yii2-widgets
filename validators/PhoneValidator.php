@@ -15,7 +15,8 @@ class PhoneValidator extends Validator
     {
         parent::init();
         if ($this->message === null) {
-            $this->message = \Yii::t('errors', 'Wrong phone format');
+//            $this->message = \Yii::t('errors', 'Wrong phone format');
+            $this->message = 'Wrong phone format';
         }
     }
 

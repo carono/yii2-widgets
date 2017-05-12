@@ -1,6 +1,6 @@
 {
   "name": "carono/yii2-widgets",
-  "description": "Components for yii2",
+  "description": "Widgets for yii2",
   "type": "yii2-extension",
   "keywords": [
     "yii2",
@@ -9,20 +9,21 @@
   "license": "MIT",
   "authors": [
     {
+      "homepage": "http://carono.ru",
       "name": "Alexander Kasyanov",
-      "email": "spamer2000@yandex.ru"
+      "email": "info@carono.ru"
     }
   ],
   "require": {
     "yiisoft/yii2": "~2.0",
-    "kartik-v/yii2-widget-depdrop": "^1.0",
-    "kartik-v/yii2-widget-select2": "^2.0",
-    "kartik-v/yii2-widget-typeahead": "^1.0",
+    "kartik-v/yii2-widget-depdrop": "@stable",
+    "kartik-v/yii2-widget-select2": "@stable",
+    "kartik-v/yii2-widget-typeahead": "@stable",
     "kartik-v/yii2-widget-datetimepicker": "*",
-    "yiisoft/yii2-jui": "^2.0",
-    "carono/yii2-rbac": "^1.0",
-    "bower-asset/inputmask-multi": "^1.2",
-    "bower-asset/jquery.maskedinput": "^1.4"
+    "yiisoft/yii2-jui": "@stable",
+    "carono/yii2-rbac": "@stable",
+    "bower-asset/inputmask-multi": "@stable",
+    "bower-asset/jquery.maskedinput": "@stable"
   },
   "require-dev": {
   },
