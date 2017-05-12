@@ -74,12 +74,17 @@ class ActiveField extends BootstrapActiveField
     public function dropDownList2($items = null, $options = [], $field = 'name')
     {
         $models = self::modelsToOptions(is_null($items) ? $this->model->className() : $items, $field);
+        $pluginOptions = ArrayHelper::remove($options, 'pluginOptions', []);
+        if (isset($options['prompt']) && !isset($pluginOptions['allowClear'])) {
+            $pluginOptions['allowClear'] = true;
+        }
         $settings = [
-            'data'      => $models,
-            "model"     => $this->model,
-            "attribute" => $this->attribute,
-            "theme"     => Select2::THEME_BOOTSTRAP,
-            "options"   => $options
+            'data'          => $models,
+            "model"         => $this->model,
+            "attribute"     => $this->attribute,
+            "theme"         => Select2::THEME_BOOTSTRAP,
+            "options"       => $options,
+            'pluginOptions' => $pluginOptions
         ];
         return $this->widget(Select2::className(), $settings);
     }
