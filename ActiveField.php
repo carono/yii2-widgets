@@ -161,6 +161,7 @@ class ActiveField extends BootstrapActiveField
     {
         return $this->widget(
             Redactor::className(), [
+                'options'       => $options,
                 'clientOptions' => [
                     'imageManagerJson' => ['/redactor/upload/image-json'],
                     'imageUpload'      => ['/redactor/upload/image'],
