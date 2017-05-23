@@ -19,7 +19,7 @@
     "kartik-v/yii2-widget-depdrop": "@stable",
     "kartik-v/yii2-widget-select2": "@stable",
     "kartik-v/yii2-widget-typeahead": "@stable",
-    "kartik-v/yii2-widget-datetimepicker": "*",
+    "kartik-v/yii2-widget-datetimepicker": "@stable",
     "yiisoft/yii2-jui": "@stable",
     "carono/yii2-rbac": "@stable",
     "bower-asset/inputmask-multi": "@stable",
