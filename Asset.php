@@ -12,6 +12,7 @@ class Asset extends AssetBundle
     public $js = ['phones.js'];
 
     public $depends = [
+	    'yii\web\YiiAsset',
         'carono\yii2widgets\BowerInputmaskMultiAsset',
         'carono\yii2widgets\BowerJqueryMaskAsset'
     ];
