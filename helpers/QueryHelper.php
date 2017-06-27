@@ -1,7 +1,7 @@
 <?php
 
 
-namespace carono\yii2widgets\helpers; 
+namespace carono\yii2widgets\helpers;
 
 
 use yii\base\Model;
@@ -12,21 +12,23 @@ class QueryHelper
 {
     /**
      * @param ActiveRecord $model
-     * @param Query        $query
+     * @param Query $query
+     * @param null $alias
      */
-    public static function regular($model, $query)
+    public static function regular($model, $query, $alias = null)
     {
         /**
          * @var ActiveRecord $class
          */
+        $alias = $alias ? $alias : $model::tableName();
         $class = get_class($model);
         foreach ($model->safeAttributes() as $attribute) {
             if ($column = \Yii::$app->db->getTableSchema($class::tableName())->getColumn($attribute)) {
                 $value = $model->getAttribute($attribute);
                 if ($column->type == 'text' || $column->type == 'string') {
-                    $query->andFilterWhere(['ilike', $attribute, $value]);
+                    $query->andFilterWhere(['ilike', "[[$alias]].[[$attribute]]", $value]);
                 } else {
-                    $query->andFilterWhere([$attribute => $value]);
+                    $query->andFilterWhere(["[[$alias]].[[$attribute]]" => $value]);
                 }
             }
         }
