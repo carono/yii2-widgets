@@ -1,4 +1,5 @@
 <?php
+
 namespace carono\yii2widgets;
 
 use carono\yii2rbac\RoleManager;
@@ -10,7 +11,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $text;
     public $checkUrlAccess = false;
     public $visibleButton;
-
+    
     public function init()
     {
         parent::init();
@@ -28,6 +29,12 @@ class ActionColumn extends \yii\grid\ActionColumn
         }
     }
 
+    /**
+     * @param $url
+     * @param $model
+     * @param $key
+     * @return ButtonColumn
+     */
     public function buttonUpload($url, $model, $key)
     {
         $button = new ButtonColumn();
@@ -38,6 +45,12 @@ class ActionColumn extends \yii\grid\ActionColumn
         return $button;
     }
 
+    /**
+     * @param mixed $model
+     * @param mixed $key
+     * @param int $index
+     * @return mixed
+     */
     protected function renderDataCellContent($model, $key, $index)
     {
         return preg_replace_callback(
@@ -67,6 +80,13 @@ class ActionColumn extends \yii\grid\ActionColumn
         );
     }
 
+    /**
+     * @param $name
+     * @param $model
+     * @param $key
+     * @param $index
+     * @return bool|mixed
+     */
     public function buttonIsVisible($name, $model, $key, $index)
     {
         if ($this->visibleButton) {
@@ -76,75 +96,51 @@ class ActionColumn extends \yii\grid\ActionColumn
         }
     }
 
+    /**
+     * @param $model
+     * @param $class
+     * @return bool
+     */
+    public static function haveBehaviour($model, $class)
+    {
+        if (!method_exists($model, 'behaviors')) {
+            return false;
+        }
+        foreach ($model->behaviors() as $name => $behavior) {
+            if (ltrim($behavior['class'], '\\') == ltrim($class, '\\')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $model
+     * @param $action
+     * @return mixed|null
+     */
+    protected function urlFromModel($model, $action)
+    {
+        if (method_exists($model, 'getUrl') || self::haveBehaviour($model, 'carono\yii2behaviors\UrlBehaviors')) {
+            return call_user_func([$model, 'getUrl'], $action);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param string $action
+     * @param \yii\db\ActiveRecordInterface $model
+     * @param mixed $key
+     * @param int $index
+     * @return string
+     */
     public function createUrl($action, $model, $key, $index)
     {
-        if (method_exists($model, 'getUrl') && ($url = $model->getUrl($action)) && !$this->urlCreator) {
+        if (!$this->urlCreator && ($url = $this->urlFromModel($model, $action))) {
             return $url;
         } else {
             return parent::createUrl($action, $model, $key, $index);
         }
-    }
-
-    protected static function registerModifyScript($id, $send, $revert, $ok = "glyphicon-ok",
-        $error = 'glyphicon-remove', $wait = "glyphicon-time")
-    {
-        $send = strpos($send, 'fa-') !== false ? "fa " . $send : "glyphicon " . $send;
-        $revert = strpos($revert, 'fa-') !== false ? "fa " . $revert : "glyphicon " . $revert;
-        $ok = strpos($ok, 'fa-') !== false ? "fa " . $ok : "glyphicon " . $ok;
-        $error = strpos($error, 'fa-') !== false ? "fa " . $error : "glyphicon " . $error;
-        $wait = strpos($wait, 'fa-') !== false ? "fa " . $wait : "glyphicon " . $wait;
-        $script
-            = <<<EOT
-    $('[ajax-link=$id]').on('click', function () {
-    	var elem=$(this);
-    	if (!elem.attr('revert-url')){
-    		elem.attr('revert-url',elem.attr('href'));
-    	}
-		$.ajax({
-			type: "POST",
-			url: $(this).attr('href'),
-			dataType: 'json',
-			async: true,
-			success: function (data) {
-				if (elem.attr('revert')){
-					elem.removeAttr('revert');
-				}else{
-					elem.attr('revert', 1);
-				}
-				if (elem.attr('revert')){
-					elem.find('.glyphicon, .fa').attr('class','').addClass('$revert');
-					elem.attr('href', elem.attr('revert-url'));
-				}else{
-					elem.find('.glyphicon, .fa').attr('class','').addClass('$send');
-					elem.attr('href', elem.attr('send-url'));
-				}
-				if (data['message']) {
-					$(elem).parent().tooltip({
-						title: data['message'],
-						placement: 'right',
-						trigger:'hover',
-						delay: {show: 500, hide: 500}
-					}).tooltip('show').on('hidden.bs.tooltip',function(){ $(this).tooltip('destroy') });
-				}
-			},
-			beforeSend: function (){
-				elem.find('.glyphicon, .fa').attr('class','').addClass('$wait');
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				elem.find('.glyphicon, .fa').attr('class','').addClass('$error');
-				if (jqXHR.responseJSON['message']) {
-					$(elem).parent().tooltip({
-						title:jqXHR.responseJSON['message'],
-						placement : 'right',
-						trigger:'hover',
-						delay: {show: 500, hide: 500}
-					}).tooltip('show').on('hidden.bs.tooltip',function(){ $(this).tooltip('destroy') });
-				}
-			}
-		});
-        return false;
-    })
-EOT;
-        Yii::$app->getView()->registerJs($script);
     }
 }
