@@ -3,6 +3,7 @@
 namespace carono\yii2widgets;
 
 use carono\yii2rbac\RoleManager;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
 class ActionColumn extends \yii\grid\ActionColumn
@@ -10,7 +11,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $text;
     public $checkUrlAccess = false;
     public $visibleButton;
-    
+
     public function init()
     {
         parent::init();
@@ -106,7 +107,12 @@ class ActionColumn extends \yii\grid\ActionColumn
             return false;
         }
         foreach ($model->behaviors() as $name => $behavior) {
-            if (ltrim($behavior['class'], '\\') == ltrim($class, '\\')) {
+            if (is_array($behavior)) {
+                $name = ArrayHelper::getValue($behavior, 'class');
+            } else {
+                $name = $behavior;
+            }
+            if (ltrim($name, '\\') == ltrim($class, '\\')) {
                 return true;
             }
         }
