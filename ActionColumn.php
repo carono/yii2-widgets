@@ -3,7 +3,6 @@
 namespace carono\yii2widgets;
 
 use carono\yii2rbac\RoleManager;
-use Yii;
 use yii\helpers\Inflector;
 
 class ActionColumn extends \yii\grid\ActionColumn
@@ -121,7 +120,7 @@ class ActionColumn extends \yii\grid\ActionColumn
      */
     protected function urlFromModel($model, $action)
     {
-        if (method_exists($model, 'getUrl') || self::haveBehaviour($model, 'carono\yii2behaviors\UrlBehaviors')) {
+        if (method_exists($model, 'getUrl') || self::haveBehaviour($model, 'carono\yii2behaviors\UrlBehavior')) {
             return call_user_func([$model, 'getUrl'], $action);
         } else {
             return null;

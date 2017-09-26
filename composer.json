@@ -23,7 +23,8 @@
     "yiisoft/yii2-jui": "@stable",
     "carono/yii2-rbac": "@stable",
     "bower-asset/inputmask-multi": "@stable",
-    "bower-asset/jquery.maskedinput": "@stable"
+    "bower-asset/jquery.maskedinput": "@stable",
+    "carono/yii2-helpers": "@stable"
   },
   "require-dev": {
   },

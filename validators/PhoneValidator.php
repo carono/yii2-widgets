@@ -4,7 +4,7 @@
 namespace carono\yii2widgets\validators;
 
 
-use carono\yii2widgets\helpers\PhoneHelper;
+use carono\yii2helpers\PhoneHelper;
 use yii\validators\Validator;
 
 class PhoneValidator extends Validator
