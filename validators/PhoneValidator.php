@@ -22,11 +22,10 @@ class PhoneValidator extends Validator
 
     protected function validateValue($value)
     {
-        $normalize = PhoneHelper::normalNumber($value);
-        if ($this->allowEmpty && !$normalize) {
+        if ($this->allowEmpty && !PhoneHelper::clear($value)) {
             return null;
         }
-        if (!$normalize) {
+        if (!PhoneHelper::normalNumber($value)) {
             return [$this->message, []];
         }
         return null;
