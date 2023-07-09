@@ -3,6 +3,7 @@
 namespace carono\yii2widgets;
 
 use carono\yii2rbac\RoleManager;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
@@ -19,12 +20,7 @@ class ActionColumn extends \yii\grid\ActionColumn
         preg_match_all('/button(\w+)/', join(" ", $methods), $m);
         foreach ($m[1] as $button) {
             $this->buttons[lcfirst($button)] = function ($url, $model, $key) use ($button) {
-                $result = call_user_func_array([$this, "button" . $button], [$url, $model, $key]);
-                if ($result instanceof ButtonColumn) {
-                    return $result->asLink();
-                } else {
-                    return $result;
-                }
+                return call_user_func_array([$this, "button" . $button], [$url, $model, $key, lcfirst($button)]);
             };
         }
     }
@@ -33,9 +29,29 @@ class ActionColumn extends \yii\grid\ActionColumn
      * @param $url
      * @param $model
      * @param $key
+     * @param $action
+     * @return string
+     */
+    public function getDefaultButton($url, $model, $key, $action)
+    {
+        $title = Yii::t('buttons', $action);
+        $button = new ButtonColumn();
+        $button->icon = "";
+        $button->title = $title;
+        $button->content = $this->inDropdown("{$action}") ? $title : '';
+        $button->options = $this->inDropdown("{$action}") ? ['class' => 'dropdown-item'] : ['class' => 'btn btn-sm font-sm rounded btn-brand mr-5'];
+        $button->url = $url;
+        return $button->asLink();
+    }
+
+
+    /**
+     * @param $url
+     * @param $model
+     * @param $key
      * @return ButtonColumn
      */
-    public function buttonUpload($url, $model, $key)
+    public function buttonUpload($url, $model, $key, $action)
     {
         $button = new ButtonColumn();
         $button->icon = "glyphicon glyphicon-upload";
@@ -46,38 +62,74 @@ class ActionColumn extends \yii\grid\ActionColumn
     }
 
     /**
-     * @param mixed $model
-     * @param mixed $key
-     * @param int $index
-     * @return mixed
+     * @param $model
+     * @param $key
+     * @param $index
+     * @return array|string|string[]|null
      */
     protected function renderDataCellContent($model, $key, $index)
     {
-        return preg_replace_callback(
-            '/\\{([\w\-\/]+)\\}/', function ($matches) use ($model, $key, $index) {
+        return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) use ($model, $key, $index) {
             $action = $matches[1];
             $name = lcfirst(Inflector::camelize(strtr($matches[1], ['/' => '_', '\\' => '_'])));
-            if (isset($this->buttons[$name]) && $this->buttonIsVisible($name, $model, $key, $index)) {
 
-                if (isset($this->visibleButtons[$name])) {
-                    $isVisible = $this->visibleButtons[$name] instanceof \Closure
-                        ? call_user_func($this->visibleButtons[$name], $model, $key, $index)
-                        : $this->visibleButtons[$name];
-                } else {
-                    $isVisible = true;
-                }
-
+            if ($this->isButtonVisible($name, $model, $key, $index) || $this->urlFromModel($model, $action)) {
+                $isVisible = $this->getButtonVisibility($name, $model, $key, $index);
                 $url = $this->createUrl($action, $model, $key, $index);
+
                 if ($isVisible && (!$this->checkUrlAccess || RoleManager::checkAccessByUrl($url))) {
-                    return call_user_func($this->buttons[$name], $url, $model, $key);
-                } else {
-                    return '';
+                    return $this->getButtonContent($name, $action, $url, $model, $key);
                 }
-            } else {
-                return '';
             }
-        }, $this->template
-        );
+
+            return '';
+        }, $this->template);
+    }
+
+    /**
+     * @param $name
+     * @param $model
+     * @param $key
+     * @param $index
+     * @return bool
+     */
+    protected function isButtonVisible($name, $model, $key, $index)
+    {
+        return isset($this->buttons[$name]) && $this->buttonIsVisible($name, $model, $key, $index);
+    }
+
+    /**
+     * @param $name
+     * @param $model
+     * @param $key
+     * @param $index
+     * @return bool|mixed
+     */
+    protected function getButtonVisibility($name, $model, $key, $index)
+    {
+        if (isset($this->visibleButtons[$name])) {
+            $isVisible = $this->visibleButtons[$name] instanceof \Closure
+                ? call_user_func($this->visibleButtons[$name], $model, $key, $index)
+                : $this->visibleButtons[$name];
+        } else {
+            $isVisible = true;
+        }
+
+        return $isVisible;
+    }
+
+    /**
+     * @param $name
+     * @param $action
+     * @param $url
+     * @param $model
+     * @param $key
+     * @return mixed
+     */
+    protected function getButtonContent($name, $action, $url, $model, $key)
+    {
+        $button = $this->buttons[$name] ?? [$this, 'getDefaultButton'];
+        return call_user_func($button, $url, $model, $key, $action);
     }
 
     /**
